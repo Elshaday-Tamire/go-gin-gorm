@@ -10,13 +10,14 @@ import (
 func ProductsCreate(c *gin.Context) {
 	// Get data off req body
 	var body struct {
-		Name        string
+		Title       string
 		Description string
+		Base64      string
 	}
 	c.Bind(&body)
 
 	//create a product
-	product := models.Product{Name: body.Name, Description: body.Description}
+	product := models.Product{Title: body.Title, Description: body.Description, Base64: body.Base64}
 
 	result := initializers.DB.Create(&product)
 
@@ -60,8 +61,9 @@ func ProductUpdate(c *gin.Context) {
 
 	//get the data off req body
 	var body struct {
-		Name        string
+		Title       string
 		Description string
+		Base64      string
 	}
 	c.Bind(&body)
 	//find the post where updating is to be performed
@@ -69,8 +71,7 @@ func ProductUpdate(c *gin.Context) {
 	initializers.DB.First(&product, id)
 	//update it
 	initializers.DB.Model(&product).Updates(models.Product{
-		Name:        body.Name,
-		Description: body.Description,
+		Title: body.Title, Description: body.Description, Base64: body.Base64,
 	})
 	//respond with it
 	c.JSON(200, gin.H{
