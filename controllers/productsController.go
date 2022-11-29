@@ -30,6 +30,27 @@ func ProductsCreate(c *gin.Context) {
 		"product": product,
 	})
 }
+func OrderCreate(c *gin.Context) {
+	// Get data off req body
+	var body struct {
+		OrderName string
+	}
+	c.Bind(&body)
+
+	//create a product
+	order := models.Order{OrderName: body.OrderName}
+
+	result := initializers.DB.Create(&order)
+
+	if result.Error != nil {
+		c.Status(400)
+		return
+	}
+	//Return it
+	c.JSON(200, gin.H{
+		"order": order,
+	})
+}
 
 func ProductsGetAll(c *gin.Context) {
 	// Get the products

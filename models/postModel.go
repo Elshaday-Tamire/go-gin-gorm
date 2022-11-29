@@ -10,3 +10,8 @@ type Product struct {
 	Description string
 	Base64      string
 }
+
+type Order struct {
+	gorm.Model
+	OrderName string
+}
